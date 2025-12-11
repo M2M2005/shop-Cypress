@@ -1,0 +1,24 @@
+{
+  "name": "shop-cypress",
+  "version": "1.0.0",
+  "description": "Cypress E2E tests for Shop application",
+  "main": "index.js",
+  "scripts": {
+    "cypress": "cypress open",
+    "test": "cypress run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/M2M2005/shop-Cypress.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/M2M2005/shop-Cypress/issues"
+  },
+  "homepage": "https://github.com/M2M2005/shop-Cypress#readme",
+  "devDependencies": {
+    "cypress": "^15.7.1"
+  }
+}

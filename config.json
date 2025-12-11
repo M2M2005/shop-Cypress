@@ -1,0 +1,13 @@
+{
+  "baseUrl": "http://localhost:3001",
+  "users" : {
+    "admin": {
+      "login": "admin@shop.com",
+      "password": "Admin123!"
+    },
+    "qa-user1": {
+      "login": "qa-user1@shop.com",
+      "password": "Mdp123!!"
+    }
+  }
+}
