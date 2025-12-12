@@ -19,6 +19,5 @@ Projet de tests E2E avec Cypress pour l'application Shop.
 ## Utilisation
 
 ```bash
-npm run cypress   # Ouvrir l'interface Cypress
-npm test          # Exécuter les tests en mode headless
+npm run cypress -e2e -chrome
 ```

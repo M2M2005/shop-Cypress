@@ -9,5 +9,16 @@
       "login": "qa-user1@shop.com",
       "password": "Mdp123!!"
     }
-  }
+  },
+  "products" : [
+    {
+      "name":"test-qa",
+      "description": "test-qa",
+      "price": "20",
+      "margin": "20",
+      "stock": "5",
+      "category": "qa",
+      "img": "cypress/fixtures/test1/test1.png"
+    }
+  ]
 }
