@@ -1,4 +1,5 @@
-import './commands'
+import { commands } from './commands'
+import config from '../../config.json'
 
 const app = window.top;
 if (!app.document.head.querySelector('[data-hide-command-log-request]')) {
@@ -9,8 +10,14 @@ if (!app.document.head.querySelector('[data-hide-command-log-request]')) {
   app.document.head.appendChild(style);
 }
 
-// Handle uncaught exceptions
-Cypress.on('uncaught:exception', (err, runnable) => {
-  // returning false here prevents Cypress from failing the test
+Cypress.on('uncaught:exception', () => {
   return false;
 })
+
+beforeEach(function() {
+  cy.commands = commands
+})
+
+cy.getConfig = function () {
+    return config
+};
