@@ -7,8 +7,11 @@ export const commands = {
         cy.get('button[type="submit"]').click()
     },
 
-    creerProduit(produit) {
+    goToDashboardAdmin() {
         cy.get('a[href="/admin"]').should("be.visible").click()
+    },
+
+    creerProduit(produit) {
         cy.get('button[data-testid="admin-dashboard-manage-users-button"]').click()
         cy.get('button[data-testid="admin-products-new-product-button"]').click()
 

@@ -5,7 +5,7 @@ describe('Shop Application Tests', () => {
     })
 
     it('Création d\'une commande dans le dashboard Admin', () => {
-        const produit1 = cy.getConfig().products[0]
-        cy.commands.creerProduit(produit1)
+        cy.commands.goToDashboardAdmin()
+        cy.commands.creerProduit(cy.getConfig().products[0])
     })
 })

@@ -19,5 +19,5 @@ Projet de tests E2E avec Cypress pour l'application Shop.
 ## Utilisation
 
 ```bash
-npm run cypress -e2e -chrome
+ npm run cypress -e2e -chrome
 ```
