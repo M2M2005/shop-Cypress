@@ -5,6 +5,7 @@ export const commands = {
         cy.get('input[id=email]').type(login)
         cy.get('input[id=password]').type(password)
         cy.get('button[type="submit"]').click()
+        cy.wait(2000)
     },
 
     goToDashboardAdmin() {
@@ -12,16 +13,18 @@ export const commands = {
     },
 
     creerProduit(produit) {
-        cy.get('button[data-testid="admin-dashboard-manage-users-button"]').click()
+        cy.get('button[data-testid="admin-dashboard-manage-products-button"]').click()
         cy.get('button[data-testid="admin-products-new-product-button"]').click()
 
         cy.get('input[data-testid="admin-products-name-input"]').type(produit.name)
-        cy.get('input[data-testid="admin-products-description-input"]').type(produit.description)
+        cy.get('textarea[data-testid="admin-products-description-input"]').type(produit.description)
         cy.get('input[data-testid="admin-products-purchase-price-input"]').type(produit.price)
-        cy.get('input[data-testid="admin-products-margin-rate-input"]').type(produit.margin)
+        cy.get('input[data-testid="admin-products-margin-rate-input"]').clear().type(produit.margin)
         cy.get('input[data-testid="admin-products-stock-input"]').type(produit.stock)
         cy.get('input[data-testid="admin-products-category-input"]').type(produit.category)
-        cy.get('input[data-testid="admin-products-image-input"]').selectFile(produit.img)
+
+        cy.get('input[data-testid="admin-products-image-input"]').selectFile(produit.img, { force: true })
+        cy.get('input[data-testid="admin-products-image-input"]').should('have.value').and('not.be.empty')
 
         cy.get('button[data-testid="admin-products-submit-button"]').click()
     }
