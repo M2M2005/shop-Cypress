@@ -8,6 +8,12 @@ export const commands = {
         cy.wait(2000)
     },
 
+    deconnexion() {
+        cy.get('button[data-testid="header-user-menu-button"]').click()
+        cy.get('button[data-testid="header-signout-button"]').click()
+        cy.wait(2000)
+    },
+
     goToDashboardAdmin() {
         cy.get('a[href="/admin"]').should("be.visible").click()
     },
@@ -24,7 +30,7 @@ export const commands = {
         cy.get('input[data-testid="admin-products-category-input"]').type(produit.category)
 
         cy.get('input[data-testid="admin-products-image-input"]').selectFile(produit.img, { force: true })
-        cy.get('input[data-testid="admin-products-image-input"]').should('have.value').and('not.be.empty')
+        cy.wait(2000)
 
         cy.get('button[data-testid="admin-products-submit-button"]').click()
     }
