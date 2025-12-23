@@ -1,5 +1,15 @@
 import { commands } from './commands'
-import config from '../../config.json'
+
+if (!cy.commands) {
+    cy.commands = commands;
+}
+
+if (!cy.dataSet) {
+    /**
+     * @type {typeof import('../../QALI.json')}
+     */
+    cy.dataSet = Cypress.env('dataSet');
+}
 
 const app = window.top;
 if (!app.document.head.querySelector('[data-hide-command-log-request]')) {
@@ -13,11 +23,3 @@ if (!app.document.head.querySelector('[data-hide-command-log-request]')) {
 Cypress.on('uncaught:exception', () => {
   return false;
 })
-
-beforeEach(function() {
-  cy.commands = commands
-})
-
-cy.getConfig = function () {
-    return config
-};

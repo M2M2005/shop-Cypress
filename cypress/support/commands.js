@@ -33,7 +33,63 @@ export const commands = {
         cy.wait(2000)
 
         cy.get('button[data-testid="admin-products-submit-button"]').click()
-    }
+    },
+
+    selectProduct(name){
+        cy.get('h3').contains(name).click()
+    },
+
+    addCart(quantity){
+        for (let i = 1; i < quantity; i++) {
+            cy.get('button[data-testid="product-quantity-increase"]').click()
+        }
+        cy.get('button[data-testid="product-add-to-cart-button"]').click()
+    },
+
+    cart : {
+        open() {
+            cy.get('a[data-testid="header-cart-link"]').click()
+        },
+
+        checkInformation(quantity, name, price) {
+            cy.get('h3').contains(name).should('be.visible')
+            cy.get('p').contains(price).should('be.visible')
+            cy.get('span').contains(quantity).should('be.visible')
+            let total = quantity * price
+            cy.get('span').contains(total).should('be.visible')
+        },
+
+        goToCheckOut() {
+            cy.get('button[data-testid="cart-checkout-button"]').click()
+        }
+    },
+
+    checkout : {
+        checkInformation(quantity, name, price, pseudo, email) {
+            cy.get('p').contains(pseudo).should('be.visible')
+            cy.get('p').contains(email).should('be.visible')
+
+            cy.get('h3').contains(name).should('be.visible')
+            cy.get('p').contains(price).should('be.visible')
+            cy.get('p').contains(quantity).should('be.visible')
+            let total = quantity * price
+            cy.get('span').contains(total).should('be.visible')
+        },
+
+        buyOrder() {
+            cy.get('button[data-testid="checkout-pay-button"]').click()
+        },
+
+        success : {
+            checkSuccess() {
+                cy.get('h1').contains("Commande confirmée !").should('be.visible')
+            },
+
+            backToHome () {
+                cy.get('a[data-testid="checkout-home-button"]').click()
+            }
+        }
+    },
 }
 
 
