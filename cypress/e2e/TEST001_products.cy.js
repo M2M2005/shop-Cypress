@@ -1,28 +1,24 @@
 describe('Shop Application Tests', () => {
     let quantity = 3
-    let price
-
-    before(() => {
-        price = cy.dataSet.products[0].price * ((cy.dataSet.products[0].margin / 100) + 1)
-    })
+    let price = cy.dataSet.products[0].price * ((cy.dataSet.products[0].margin / 100) + 1)
 
     it.skip('Connexion Admin', () => {
-        cy.commands.connexion(cy.dataSet.users.admin.login, cy.dataSet.users.admin.password)
+        cy.commands.login.connexion(cy.dataSet.users.admin.login, cy.dataSet.users.admin.password)
     })
 
     it.skip('Création d\'une commande dans le dashboard Admin', () => {
-        cy.commands.goToDashboardAdmin()
-        cy.commands.creerProduit(cy.dataSet.products[0])
+        cy.commands.admin.goToDashboardAdmin()
+        cy.commands.admin.products.creerProduit(cy.dataSet.products[0])
     })
 
     it('Connexion Users', () => {
         // cy.commands.deconnexion()
-        cy.commands.connexion(cy.dataSet.users.user1.login, cy.dataSet.users.user1.password)
+        cy.commands.login.connexion(cy.dataSet.users.user1.login, cy.dataSet.users.user1.password)
     })
 
     it('Sélectionnez le produit créer', () => {
-        cy.commands.selectProduct(cy.dataSet.products[0].name)
-        cy.commands.addCart(quantity)
+        cy.commands.cart.selectProduct(cy.dataSet.products[0].name)
+        cy.commands.cart.addCart(quantity)
     })
 
     it('Passer la commande', () => {
@@ -37,5 +33,3 @@ describe('Shop Application Tests', () => {
         cy.commands.checkout.success.backToHome()
     })
 });
-
-it('test', function() {});
