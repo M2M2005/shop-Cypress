@@ -22,9 +22,20 @@ export const commands = {
             cy.get('a[href="/admin"]').should("be.visible").click()
         },
 
-        products : {
-            creerProduit(produit) {
+        checkInformation(quantity, name, price, pseudo, email) {
+            cy.get('tbody tr:nth-child(1)').contains(pseudo).should('be.visible')
+            cy.get('tbody tr:nth-child(1)').contains(email).should('be.visible')
+
+            let total = quantity * price
+            cy.get('span').contains(total).should('be.visible')
+        },
+
+        productsManage : {
+            goToProductsManage() {
                 cy.get('button[data-testid="admin-dashboard-manage-products-button"]').click()
+            },
+
+            creerProduit(produit) {
                 cy.get('button[data-testid="admin-products-new-product-button"]').click()
 
                 cy.get('input[data-testid="admin-products-name-input"]').type(produit.name)
