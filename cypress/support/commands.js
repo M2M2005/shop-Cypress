@@ -6,7 +6,7 @@ export const commands = {
         cy.wait(2000)
     },
 
-    login : {
+    login: {
         connexion(login, password) {
             cy.visit('/')
             cy.get('a[href="/login"]').click()
@@ -22,15 +22,53 @@ export const commands = {
             cy.get('a[href="/admin"]').should("be.visible").click()
         },
 
-        checkInformation(quantity, name, price, pseudo, email) {
+        checkInformation(quantity, price, pseudo, email, statut) {
+            let total = quantity * price
+            let date = new Date().toLocaleDateString()
+
             cy.get('tbody tr:nth-child(1)').contains(pseudo).should('be.visible')
             cy.get('tbody tr:nth-child(1)').contains(email).should('be.visible')
-
-            let total = quantity * price
-            cy.get('span').contains(total).should('be.visible')
+            cy.get('tbody tr:nth-child(1)').contains(total).should('be.visible')
+            cy.get('tbody tr:nth-child(1)').contains(statut).should('be.visible')
+            cy.get('tbody tr:nth-child(1)').contains(date).should('be.visible')
         },
 
-        productsManage : {
+        clickManageOrderModalButton() {
+            cy.get('tbody tr:nth-child(1) button[data-testid="admin-dashboard-manage-order-button"]').click()
+        },
+
+        checkInformationManageOrderModal(quantity, price, pseudo, email) {
+            let total = quantity * price
+
+            cy.get('div[id="ManageOrderModal"]').contains(pseudo).should('be.visible')
+            cy.get('div[id="ManageOrderModal"]').contains(email).should('be.visible')
+            cy.get('div[id="ManageOrderModal"]').contains(quantity).should('be.visible')
+            cy.get('div[id="ManageOrderModal"]').contains(price).should('be.visible')
+            cy.get('div[id="ManageOrderModal"]').contains(total).should('be.visible')
+        },
+
+        changeOrderStatus(status) {
+            switch (status) {
+                case "En attente":
+                    cy.get('button[data-testid="admin-dashboard-update-status-pending-button"]').click()
+                    break;
+                case "Validation payment":
+                    cy.get('button[data-testid="admin-dashboard-update-status-payment_validated-button"]').click()
+                    break;
+                case "Livré":
+                    cy.get('button[data-testid="admin-dashboard-update-status-delivered-button"]').click()
+                    break;
+            }
+            cy.wait(2000)
+        },
+
+        deleteOrder() {
+            cy.on('window:confirm', () => true)
+            cy.get('tbody tr:nth-child(1) button[data-testid="admin-dashboard-delete-order-button"]').click()
+            cy.wait(2000)
+        },
+
+        productsManage: {
             goToProductsManage() {
                 cy.get('button[data-testid="admin-dashboard-manage-products-button"]').click()
             },
@@ -45,20 +83,26 @@ export const commands = {
                 cy.get('input[data-testid="admin-products-stock-input"]').type(produit.stock)
                 cy.get('input[data-testid="admin-products-category-input"]').type(produit.category)
 
-                cy.get('input[data-testid="admin-products-image-input"]').selectFile(produit.img, { force: true })
+                cy.get('input[data-testid="admin-products-image-input"]').selectFile(produit.img, {force: true})
                 cy.wait(2000)
 
                 cy.get('button[data-testid="admin-products-submit-button"]').click()
             },
+
+            deleteProduit(name) {
+                cy.on('window:confirm', () => true)
+                cy.get('tbody tr:nth-child(1) button[data-testid="admin-products-delete-button"]').click()
+                cy.wait(2000)
+            }
         },
     },
 
-    products : {
-        selectProduct(name){
+    products: {
+        selectProduct(name) {
             cy.get('h3').contains(name).click()
         },
 
-        addCart(quantity){
+        addCart(quantity) {
             for (let i = 1; i < quantity; i++) {
                 cy.get('button[data-testid="product-quantity-increase"]').click()
             }
@@ -66,7 +110,7 @@ export const commands = {
         },
     },
 
-    cart : {
+    cart: {
         open() {
             cy.get('a[data-testid="header-cart-link"]').click()
         },
@@ -84,7 +128,7 @@ export const commands = {
         }
     },
 
-    checkout : {
+    checkout: {
         checkInformation(quantity, name, price, pseudo, email) {
             cy.get('p').contains(pseudo).should('be.visible')
             cy.get('p').contains(email).should('be.visible')
@@ -100,12 +144,12 @@ export const commands = {
             cy.get('button[data-testid="checkout-pay-button"]').click()
         },
 
-        success : {
+        success: {
             checkSuccess() {
                 cy.get('h1').contains("Commande confirmée !").should('be.visible')
             },
 
-            backToHome () {
+            backToHome() {
                 cy.get('a[data-testid="checkout-home-button"]').click()
             }
         }
