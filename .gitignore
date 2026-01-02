@@ -23,3 +23,6 @@ Thumbs.db
 # Test results
 test-results/
 mochawesome-report/
+
+# Claude
+.claude

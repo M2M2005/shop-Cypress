@@ -17,6 +17,44 @@ export const commands = {
         },
     },
 
+    register: {
+        inscription(pseudo, email, password) {
+            cy.visit('/')
+            cy.get('a[href="/register"]').click()
+            cy.get('input[id=name]').type(pseudo)
+            cy.get('input[id=email]').type(email)
+            cy.get('input[id=password]').type(password)
+            cy.get('input[id=confirmPassword ]').type(password)
+            cy.get('button[type="submit"]').click()
+            cy.wait(2000)
+        },
+    },
+
+    profil: {
+        goToProfil() {
+            cy.get('button[data-testid="header-user-menu-button"]').should("be.visible").click()
+            cy.get('a[data-testid="header-profile-link"]').should("be.visible").click()
+        },
+
+        checkInformation(pseudo, email) {
+            cy.get('input[data-testid="profile-name-input"]').should('have.value', pseudo)
+            cy.get('input[data-testid="profile-email-input"]').should('have.value', email)
+        },
+
+        updateInformation(newPseudo, currentPassword, newPassword) {
+            cy.get('input[data-testid="profile-name-input"]').clear().type(newPseudo)
+
+            if (currentPassword && newPassword) {
+                cy.get('input[data-testid="profile-current-password-input"]').type(currentPassword)
+                cy.get('input[data-testid="profile-new-password-input"]').type(newPassword)
+                cy.get('input[data-testid="profile-confirm-password-input"]').type(newPassword)
+            }
+
+            cy.get('button[data-testid="profile-submit-button"]').click()
+            cy.wait(2000)
+        },
+    },
+
     admin: {
         goToDashboardAdmin() {
             cy.get('a[href="/admin"]').should("be.visible").click()
@@ -66,6 +104,44 @@ export const commands = {
             cy.on('window:confirm', () => true)
             cy.get('tbody tr:nth-child(1) button[data-testid="admin-dashboard-delete-order-button"]').click()
             cy.wait(2000)
+        },
+
+        usersManage: {
+            goToUsersManage() {
+                cy.get('button[data-testid="admin-dashboard-manage-users-button"]').click()
+            },
+
+            editUser(email, newName, newRole) {
+                cy.contains('tbody tr', email).find('button[data-testid="admin-users-edit-button"]').click()
+                cy.wait(1000)
+
+                if (newName) {
+                    cy.get('input[data-testid="admin-users-name-input"]').clear().type(newName)
+                }
+
+                if (newRole) {
+                    cy.get('select[data-testid="admin-users-role-select"]').select(newRole)
+                }
+
+                cy.get('button[data-testid="admin-users-submit-button"]').click()
+                cy.wait(2000)
+            },
+
+            checkUserInTable(name, email, role) {
+                cy.contains('tbody tr', email).within(() => {
+                    cy.contains(name).should('be.visible')
+                    cy.contains(email).should('be.visible')
+                    if (role) {
+                        cy.contains(role).should('be.visible')
+                    }
+                })
+            },
+
+            deleteUser(email) {
+                cy.on('window:confirm', () => true)
+                cy.contains('tbody tr', email).find('button[data-testid="admin-users-delete-button"]').click()
+                cy.wait(2000)
+            }
         },
 
         productsManage: {

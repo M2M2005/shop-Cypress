@@ -10,6 +10,11 @@
       "login": "qa-user1@shop.com",
       "password": "Mdp123!!",
       "pseudo": "qa-user1"
+    },
+    "user2": {
+      "login": "qa-user2@shop.com",
+      "password": "Mdp123!!",
+      "pseudo": "qa-user2"
     }
   },
   "products" : [
