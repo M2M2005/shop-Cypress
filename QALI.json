@@ -1,5 +1,5 @@
 {
-  "baseUrl": "http://shop-anglais.cyprienbons.com/",
+  "baseUrl": "http://http://localhost:3000/",
   "users" : {
     "admin": {
       "login": "admin@shop.com",
